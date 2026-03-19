@@ -37,6 +37,7 @@ public class ControlJoystick extends JoystickView implements ControlInterface {
     private ControlJoystickData mControlData;
     private int mLastDirectionInt = GamepadJoystick.DIRECTION_NONE;
     private int mCurrentDirectionInt = GamepadJoystick.DIRECTION_NONE;
+    private boolean mFullPushActive = false;
     public ControlJoystick(ControlLayout parent, ControlJoystickData data) {
         super(parent.getContext());
         init(data, parent);
@@ -67,7 +68,14 @@ public class ControlJoystick extends JoystickView implements ControlInterface {
                     sendDirectionalKeycode(mLastDirectionInt, false);
                     sendDirectionalKeycode(mCurrentDirectionInt, true);
                 }
-            }
+       			if (mControlData.fullPushKey != -1) {
+    				boolean shouldActivate = strength >= mControlData.fullPushThreshold;
+    				if (shouldActivate != mFullPushActive) {
+    				    mFullPushActive = shouldActivate;
+    				    CallbackBridge.sendKeyPress(mControlData.fullPushKey, CallbackBridge.getCurrentMods(), mFullPushActive);
+   				 }
+			}
+	    }
 
             @Override
             public void onForwardLock(boolean isLocked) {
