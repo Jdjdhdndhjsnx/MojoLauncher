@@ -368,7 +368,7 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/checkboxAbsoluteFingerTracking" />
+        app:layout_constraintTop_toBottomOf="@id/joystick_full_push_threshold_seekbar" />
 
     <!-- BACKGROUND COLOR SECTION -->
     <fr.spse.extended_view.ExtendedTextView
