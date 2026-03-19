@@ -484,8 +484,8 @@ public class EditControlSideDialog extends SideDialogView {
 
             mKeycodeSpinners[i].setOnItemSelectedListener((SimpleItemSelectedListener) (parent, view, position, id) -> {
                 // Side note, spinner listeners are fired later than all the other ones.
-                // Meaning the internalChanges bool is useless here.
-                if (position < mSpecialArray.size()) {
+                // Meaning the internalChanif (position < mSpecialArray.size()) {
+
                 if (mCurrentlyEditedButton.getProperties() instanceof ControlJoystickData && finalI == 0) {
  		   int key = position < mSpecialArray.size()
 		        ? mKeycodeSpinners[finalI].getSelectedItemPosition() - mSpecialArray.size()
