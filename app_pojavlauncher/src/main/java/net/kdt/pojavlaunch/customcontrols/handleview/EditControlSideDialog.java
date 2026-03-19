@@ -256,7 +256,14 @@ public class EditControlSideDialog extends SideDialogView {
         mAbsoluteTrackingSwitch.setChecked(data.absolute);
 
         mSelectBackgroundBitmap.setVisibility(GONE);
-    }
+	mKeycodeSpinners[0].setVisibility(VISIBLE);
+	mKeycodeTextviews[0].setVisibility(VISIBLE);
+	if(data.fullPushKey != -1) {
+	    mKeycodeSpinners[0].setSelection(EfficientAndroidLWJGLKeycode.getIndexByValue(data.fullPushKey) + mSpecialArray.size());
+	} else {
+	    mKeycodeSpinners[0].setSelection(0);
+	}
+   }
 
     /**
      * Load values for sub buttons
@@ -479,10 +486,16 @@ public class EditControlSideDialog extends SideDialogView {
                 // Side note, spinner listeners are fired later than all the other ones.
                 // Meaning the internalChanges bool is useless here.
                 if (position < mSpecialArray.size()) {
-                    mCurrentlyEditedButton.getProperties().keycodes[finalI] = mKeycodeSpinners[finalI].getSelectedItemPosition() - mSpecialArray.size();
-                } else {
-                    mCurrentlyEditedButton.getProperties().keycodes[finalI] = EfficientAndroidLWJGLKeycode.getValueByIndex(mKeycodeSpinners[finalI].getSelectedItemPosition() - mSpecialArray.size());
-                }
+                if (mCurrentlyEditedButton.getProperties() instanceof ControlJoystickData && finalI == 0) {
+ 		   int key = position < mSpecialArray.size()
+		        ? mKeycodeSpinners[finalI].getSelectedItemPosition() - mSpecialArray.size()
+     		        : EfficientAndroidLWJGLKeycode.getValueByIndex(mKeycodeSpinners[finalI].getSelectedItemPosition() - mSpecialArray.size());
+	           ((ControlJoystickData) mCurrentlyEditedButton.getProperties()).fullPushKey = key;
+		} else if (position < mSpecialArray.size()) {
+		    mCurrentlyEditedButton.getProperties().keycodes[finalI] = mKeycodeSpinners[finalI].getSelectedItemPosition() - mSpecialArray.size();
+		} else {
+		    mCurrentlyEditedButton.getProperties().keycodes[finalI] = EfficientAndroidLWJGLKeycode.getValueByIndex(mKeycodeSpinners[finalI].getSelectedItemPosition() - mSpecialArray.size());
+		}
                 mKeycodeTextviews[finalI].setText((String) mKeycodeSpinners[finalI].getSelectedItem());
             });
         }
