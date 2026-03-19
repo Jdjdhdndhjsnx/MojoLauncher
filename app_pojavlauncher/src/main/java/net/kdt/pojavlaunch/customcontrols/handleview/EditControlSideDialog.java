@@ -167,6 +167,8 @@ public class EditControlSideDialog extends SideDialogView {
         mOrientationSpinner.setVisibility(GONE);
         mForwardLockSwitch.setVisibility(GONE);
         mAbsoluteTrackingSwitch.setVisibility(GONE);
+	mFullPushKeyTextView.setVisibility(GONE);
+	mFullPushThresholdSeekbar.setVisibility(GONE);
 
         mNameEditText.setText(data.name);
         mWidthEditText.setText(String.valueOf(data.getWidth()));
