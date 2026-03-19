@@ -333,6 +333,25 @@
         app:layout_constraintTop_toBottomOf="@id/checkboxForwardLock"
         tools:ignore="UseSwitchCompatOrMaterialXml"/>
 
+<!-- FULL PUSH KEY SECTION -->
+    <TextView
+	android:id="@+id/joystick_full_push_key_textview"
+	android:layout_width="match_parent"
+	android:layout_height="@dimen/_36sdp"
+	android:text="@string/customctrl_joystick_full_push_key"
+	android:gravity="center_vertical"
+	app:layout_constraintStart_toStartOf="parent"
+	app:layout_constraintTop_toBottomOf="@id/checkboxAbsoluteFingerTracking" />
+
+<!-- FULL PUSH THRESHOLD SECTION -->
+    <SeekBar
+        android:id="@+id/joystick_full_push_threshold_seekbar"
+        android:layout_width="match_parent"
+    	android:layout_height="@dimen/_36sdp"
+        android:max="100"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/joystick_full_push_key_textview" />
+
     <!-- BACKGROUND IMAGE SECTION -->
     <fr.spse.extended_view.ExtendedTextView
         android:id="@+id/setBackgroundBitmap_textView"

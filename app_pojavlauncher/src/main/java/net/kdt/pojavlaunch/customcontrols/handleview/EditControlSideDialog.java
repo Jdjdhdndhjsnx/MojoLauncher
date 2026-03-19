@@ -68,6 +68,8 @@ public class EditControlSideDialog extends SideDialogView {
     private Spinner mOrientationSpinner;
     private final TextView[] mKeycodeTextviews = new TextView[4];
     private SeekBar mStrokeWidthSeekbar, mCornerRadiusSeekbar, mAlphaSeekbar;
+    private SeekBar mFullPushThresholdSeekbar;
+    private TextView mFullPushKeyTextView;
     private TextView mStrokePercentTextView, mCornerRadiusPercentTextView, mAlphaPercentTextView;
     private TextView mSelectBackgroundBitmap, mSelectBackgroundColor, mSelectStrokeColor;
     private ArrayAdapter<String> mAdapter;
@@ -254,7 +256,9 @@ public class EditControlSideDialog extends SideDialogView {
 
         mAbsoluteTrackingSwitch.setVisibility(VISIBLE);
         mAbsoluteTrackingSwitch.setChecked(data.absolute);
-
+	mFullPushKeyTextView.setVisibility(VISIBLE);
+	mFullPushThresholdSeekbar.setVisibility(VISIBLE);
+	mFullPushThresholdSeekbar.setProgress(data.fullPushThreshold);
         mSelectBackgroundBitmap.setVisibility(GONE);
 	mKeycodeSpinners[0].setVisibility(VISIBLE);
 	mKeycodeTextviews[0].setVisibility(VISIBLE);
@@ -352,6 +356,8 @@ public class EditControlSideDialog extends SideDialogView {
         mKeycodeTextviews[3] = mDialogContent.findViewById(R.id.mapping_4_textview);
         mOrientationSpinner = mDialogContent.findViewById(R.id.editOrientation_spinner);
         mStrokeWidthSeekbar = mDialogContent.findViewById(R.id.editStrokeWidth_seekbar);
+        mFullPushThresholdSeekbar = mDialogContent.findViewById(R.id.joystick_full_push_threshold_seekbar);
+        mFullPushKeyTextView = mDialogContent.findViewById(R.id.joystick_full_push_key_textview);
         mCornerRadiusSeekbar = mDialogContent.findViewById(R.id.editCornerRadius_seekbar);
         mAlphaSeekbar = mDialogContent.findViewById(R.id.editButtonOpacity_seekbar);
         mSelectBackgroundBitmap = mDialogContent.findViewById(R.id.setBackgroundBitmap_textView);
@@ -470,13 +476,18 @@ public class EditControlSideDialog extends SideDialogView {
             setPercentageText(mStrokePercentTextView, progress);
         });
 
-        mCornerRadiusSeekbar.setOnSeekBarChangeListener((SimpleSeekBarListener) (seekBar, progress, fromUser) -> {
-            if (internalChanges) return;
-            mCurrentlyEditedButton.getProperties().cornerRadius = mCornerRadiusSeekbar.getProgress();
-            mCurrentlyEditedButton.setBackground();
-            setPercentageText(mCornerRadiusPercentTextView, progress);
-        });
+	mCornerRadiusSeekbar.setOnSeekBarChangeListener((SimpleSeekBarListener) (seekBar, progress, fromUser) -> {
+   	    if (internalChanges) return;
+   	    mCurrentlyEditedButton.getProperties().cornerRadius = mCornerRadiusSeekbar.getProgress();
+  	    mCurrentlyEditedButton.setBackground();
+ 	    setPercentageText(mCornerRadiusPercentTextView, progress);
+	});
 
+	mFullPushThresholdSeekbar.setOnSeekBarChangeListener((SimpleSeekBarListener) (seekBar, progress, fromUser) -> {
+	    if(internalChanges) return;
+	    if(mCurrentlyEditedButton.getProperties() instanceof ControlJoystickData)
+       		 ((ControlJoystickData) mCurrentlyEditedButton.getProperties()).fullPushThreshold = progress;
+	});
 
         for (int i = 0; i < mKeycodeSpinners.length; ++i) {
             int finalI = i;
