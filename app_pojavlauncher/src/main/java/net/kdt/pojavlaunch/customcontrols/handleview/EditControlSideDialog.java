@@ -17,6 +17,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.kdt.SideDialogView;
 
@@ -263,6 +264,9 @@ public class EditControlSideDialog extends SideDialogView {
 	mFullPushThresholdSeekbar.setProgress(data.fullPushThreshold);
         mSelectBackgroundBitmap.setVisibility(GONE);
 	mKeycodeSpinners[0].setVisibility(VISIBLE);
+	ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mKeycodeSpinners[0].getLayoutParams();
+	params.topToBottom = R.id.checkboxAbsoluteFingerTracking;
+	mKeycodeSpinners[0].setLayoutParams(params);
 	mKeycodeTextviews[0].setVisibility(VISIBLE);
 	if(data.fullPushKey != -1) {
 	    mKeycodeSpinners[0].setSelection(EfficientAndroidLWJGLKeycode.getIndexByValue(data.fullPushKey) + mSpecialArray.size());
